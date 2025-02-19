@@ -18,13 +18,13 @@ dash_app = Dash(__name__)
 
 # Create visualization
 def generate_vis(data):
-    line_chart = line(data, x="date", y="sales", title="Pink Morsel Sales")
-    line_chart.update_layout(
+    chart = line(data, x="date", y="sales", title="Pink Morsel Sales")
+    chart.update_layout(
         plot_bgcolor=COLORS["prim"],
         paper_bgcolor=COLORS["sec"],
         font_color=COLORS["font"]
     )
-    return line_chart
+    return chart
 
 visualization = dcc.Graph(
     id="visualization",
@@ -64,17 +64,15 @@ region_picker_wrapper = html.Div(
     Input(region_picker, "value")
 )
 def update_graph(region):
-    # filter the dataset
     if region == "all":
         trimmed_data = data
     else:
         trimmed_data = data[data["region"] == region]
 
-    # generate a new line chart with the filtered data
     figure = generate_vis(trimmed_data)
     return figure
 
-# Define layout
+# Layout
 dash_app.layout = html.Div(
     [
         header,
